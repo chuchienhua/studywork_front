@@ -1,24 +1,26 @@
-import logo from './logo.svg';
-import './App.css';
+import React , { lazy, Suspense }from "react";
+import { BrowserRouter, Route, Routes } from "react-router-dom";
+import TopBar from "./components/TopBar";
+import PrivateRoute from "./components/OracleCompon/PrivateRoute.js"
+import { ToastContainer } from 'react-toastify';
+
+const LoginOracle = lazy(() => import('./components/OracleCompon/LoginOracle.js'));
+const HomeOracle = lazy(() => import('./components/OracleCompon/HomeOracle.js'));
+const LoginHome = lazy(() => import('./components/OracleCompon/LoginHome.js'));
 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <BrowserRouter>
+     <TopBar />
+     <ToastContainer autoClose={2500} position={'top-right'} />
+     <Suspense fallback={<div>Loading...</div>}>
+      <Routes>
+        <Route path='homeoracle' element={<PrivateRoute login={true}><HomeOracle path='/homeoracle' /></PrivateRoute>} />
+        <Route path='LoginHome' element={<PrivateRoute login={true}><LoginHome path='/LoginHome' /></PrivateRoute>} />
+        <Route path='loginoracle' element={<PrivateRoute login={false}><LoginOracle/></PrivateRoute>} />
+      </Routes>
+      </Suspense>
+    </BrowserRouter>
   );
 }
 
