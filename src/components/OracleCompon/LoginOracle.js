@@ -8,6 +8,7 @@ import { toast } from "react-toastify";
 
 
 function LoginOracle() {
+  const url = "https://study-work.onrender.com"
   const dispatch = useDispatch();
   const [id, setid] = useState("");
   const [pw, setpw] = useState("");
@@ -19,7 +20,7 @@ function LoginOracle() {
       return;
     }
     // const apiurl = Utils.getURL("oracle/getalluserauth");
-    const apiurl = "http://192.168.0.13:3001/study/findmember";
+    const apiurl = "https://study-work.onrender.com/study/findmember";
     axios
       .post(apiurl, {
         id: id,

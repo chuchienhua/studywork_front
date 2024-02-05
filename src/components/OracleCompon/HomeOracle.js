@@ -12,6 +12,7 @@ import Handsontable from "handsontable";
 import { toast } from "react-toastify";
 function HomeOracle() {
   registerAllCellTypes();
+  const url = "https://study-work.onrender.com";
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const user = useSelector((state) => state.id);
@@ -55,7 +56,7 @@ function HomeOracle() {
   const colHeader = ["讀書日期", "讀書時間", "讀書科目", "儲存"];
 
   const getStudyDataByUserId = (userId) => {
-    const apiurl = `http://192.168.0.13:3001/study/get-study-data/${userId}`;
+    const apiurl = `https://study-work.onrender.com/study/get-study-data/${userId}`;//https://study-work.onrender.com
     axios
       .get(apiurl)
       .then((res) => {
@@ -84,7 +85,7 @@ function HomeOracle() {
       toast.error("格式錯誤，請使用 hh:mm:ss 格式！");
       return;
     }
-    axios.post('http://192.168.0.13:3001/study/update-study', {
+    axios.post('https://study-work.onrender.com/study/update-study', {
       id: rowData._id, // 確保你的資料中有 `id` 欄位
       studytime: rowData.studytime,
       studycontent: rowData.studycontent,
