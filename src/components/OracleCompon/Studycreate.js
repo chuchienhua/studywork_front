@@ -16,7 +16,7 @@ function Studycreate() {
             return;
         }
         // const apiurl = Utils.getURL("oracle/getalluserauth");
-        const apiurl = "http://192.168.0.13:3001/study/creatstudy";
+        const apiurl = "https://study-work.onrender.com/study/creatstudy";
         axios
             .post(apiurl, {
                 id :user,
