@@ -1,5 +1,47 @@
-/* CSS */
+/* General styles that apply to all screen sizes */
 .Topbar-background {
-    background-color: #c2cbf5 !important; 
-    border-bottom: 1px solid #000;
+  background-color: #c2cbf5 !important; 
+  border-bottom: 1px solid #000;
+  width: 100%; /* Ensure navbar fills the screen width */
+  box-sizing: border-box; /* Include padding and border in the element's total width and height */
+  text-align: center;
+}
+
+/* Styles for screens larger than 1200px (large desktops) */
+@media (min-width: 1200px) {
+  .Topbar-background {
+    padding: 11px 17px;
+    font-size: 15px;
   }
+}
+
+/* Styles for screens smaller than 1200px (laptops to small desktops) */
+@media (max-width: 1199px) {
+  .Topbar-background {
+    padding: 10px 15px;
+    font-size: 14px;
+  }
+}
+
+/* Styles for screens smaller than 992px (tablets) */
+@media (max-width: 991px) {
+  .Topbar-background {
+    padding: 8px 10px;
+    font-size: 13px;
+  }
+}
+
+/* Styles for screens smaller than 768px (landscape phones) */
+@media (max-width: 767px) {
+  .Topbar-background {
+    padding: 5px 8px;
+  }
+}
+
+/* Styles for screens smaller than 576px (portrait phones) */
+@media (max-width: 575px) {
+  .Topbar-background {
+    padding: 4px 6px;
+    font-size: 12px;
+  }
+}

@@ -26,8 +26,9 @@ function LoginOracle() {
         pw: pw,
       })
       .then((response) => {
-        if (response.data) {
-          console.log(response.data);
+        console.log(response.data);
+        if (response.data.status === "success") {
+          
           dispatch({ type: "LOGIN_SUCCESS", payload: response.data })
           toast.success("登入成功!");
           navigate("/LoginHome")
@@ -46,11 +47,11 @@ function LoginOracle() {
       <form>
         <div className="mb-3">
           <label htmlFor="username" className="form-label">帳號</label>
-          <input type="text" className="form-control" id="username" placeholder="輸入帳號" onChange={(e) => setid(e.target.value)} value={id}/>
+          <input type="text" className="form-control" id="username" placeholder="輸入帳號" onChange={(e) => setid(e.target.value)} value={id} />
         </div>
         <div className="mb-3">
           <label htmlFor="password" className="form-label">密碼</label>
-          <input type="password" className="form-control" id="password" placeholder="輸入密碼" onChange={(e) => setpw(e.target.value)} value={pw}/>
+          <input type="password" className="form-control" id="password" placeholder="輸入密碼" onChange={(e) => setpw(e.target.value)} value={pw} />
         </div>
         <button type="button" className="btn btn-primary" onClick={loginHandle}>登入</button>
       </form>

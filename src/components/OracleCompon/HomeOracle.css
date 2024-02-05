@@ -18,6 +18,54 @@
 .handsontable td {
   border: 1px solid #000;
 }
+/* 针对电脑屏幕的样式 */
+.custom-background {
+  padding: 20px;
+  /* 其他样式... */
+}
+
+/* 针对平板电脑屏幕的样式 */
+@media (max-width: 768px) {
+  .custom-background {
+    padding: 15px;
+    /* 其他样式... */
+  }
+}
+
+/* 针对手机屏幕的样式 */
+@media (max-width: 576px) {
+  .custom-background {
+    padding: 10px;
+    /* 其他样式，可能需要更多的布局调整... */
+  }
+}
+
+/* HomeOracle.css */
+
+/* Class for the header cells */
+.htHeader {
+  font-size: 16px; /* or any other size */
+  text-align: center;
+  background-color: #f2f2f2; /* optional background color for headers */
+}
+
+/* Class for the body cells */
+.htBody {
+  font-size: 16px; /* or any other size */
+  text-align: center;
+}
+
+/*表格*/
+.customHandsontableStyle .htCore th {
+  font-size: 17px; 
+  color: black
+}
+.customHandsontableStyle .htCore td {
+  color: black;
+  font-size: 15px; 
+  text-align: center;
+  vertical-align: middle;
+}
 
 
 

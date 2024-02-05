@@ -7,6 +7,7 @@ import { ToastContainer } from 'react-toastify';
 const LoginOracle = lazy(() => import('./components/OracleCompon/LoginOracle.js'));
 const HomeOracle = lazy(() => import('./components/OracleCompon/HomeOracle.js'));
 const LoginHome = lazy(() => import('./components/OracleCompon/LoginHome.js'));
+const Studycreate =lazy(() => import('./components/OracleCompon/Studycreate.js'));
 
 function App() {
   return (
@@ -17,6 +18,7 @@ function App() {
       <Routes>
         <Route path='homeoracle' element={<PrivateRoute login={true}><HomeOracle path='/homeoracle' /></PrivateRoute>} />
         <Route path='LoginHome' element={<PrivateRoute login={true}><LoginHome path='/LoginHome' /></PrivateRoute>} />
+        <Route path='Studycreate' element={<PrivateRoute login={true}><Studycreate path='/Studycreate' /></PrivateRoute>} />
         <Route path='loginoracle' element={<PrivateRoute login={false}><LoginOracle/></PrivateRoute>} />
       </Routes>
       </Suspense>
