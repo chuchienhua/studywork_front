@@ -27,6 +27,8 @@ function Studycreate() {
                 console.log(response.data);
                 if (response.data.status === "success") {
                     toast.success("登記成功!");
+                    setStudyTime("");
+                    setSubject("");
                 } else {
                     toast.error("登記失敗!");
                 }
