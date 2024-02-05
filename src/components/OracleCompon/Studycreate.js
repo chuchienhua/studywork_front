@@ -25,7 +25,7 @@ function Studycreate() {
             })
             .then((response) => {
                 console.log(response.data);
-                if (response.status === "success") {
+                if (response.data.status === "success") {
                     toast.success("登記成功!");
                 } else {
                     toast.error("登記失敗!");
