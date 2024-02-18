@@ -19,28 +19,36 @@ function LoginOracle() {
       alert("請輸入帳號密碼");
       return;
     }
-    // const apiurl = Utils.getURL("oracle/getalluserauth");
     const apiurl = "https://study-work.onrender.com/study/findmember";
-    axios
-      .post(apiurl, {
+
+    // 使用 toast.promise 包裹你的登录请求
+    toast.promise(
+      axios.post(apiurl, {
         id: id,
         pw: pw,
-      })
-      .then((response) => {
-        console.log(response.data);
-        if (response.data.status === "success") {
-          
-          dispatch({ type: "LOGIN_SUCCESS", payload: response.data })
-          toast.success("登入成功!");
-          navigate("/LoginHome")
-        } else {
-          toast.error("登入失敗!");
-          dispatch({ type: "LOGIN_FAILURE" });
+      }),
+      {
+        pending: '登入中...',
+        success: {
+          render({data}) {
+            dispatch({ type: "LOGIN_SUCCESS", payload: data.data });
+            navigate("/LoginHome");
+            return '登入成功!';
+          },
+          icon: true,
+        },
+        error: {
+          render({data}) {
+            dispatch({ type: "LOGIN_FAILURE" });
+            return data.response.data.error || '登入失敗!'; 
+          }
         }
-      }).catch((err) => {
-        console.log(err);
-      });
-  };
+      }
+    ).catch((err) => {
+      console.log(err);
+    });
+};
+
 
   return (
     <div className="container " style={{ maxWidth: '400px', marginTop: '70px' }}>

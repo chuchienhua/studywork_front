@@ -56,17 +56,34 @@ function HomeOracle() {
   const colHeader = ["讀書日期", "讀書時間", "讀書科目", "儲存"];
 
   const getStudyDataByUserId = (userId) => {
-    const apiurl = `https://study-work.onrender.com/study/get-study-data/${userId}`;//https://study-work.onrender.com
-    axios
-      .get(apiurl)
-      .then((res) => {
-        setStudyData(res.data);
-        // console.log(res.data);
-      })
-      .catch((err) => {
-        console.log(err);
-      });
+    const apiurl = `https://study-work.onrender.com/study/get-study-data/${userId}`;
+
+    // 使用 toast.promise 來處理請求並提供友好的使用者反饋
+    toast.promise(
+      axios.get(apiurl),
+      {
+        pending: '資料讀取中...', // 正在請求時的提示信息
+        success: {
+          render({ data }) {
+            // 請求成功，更新狀態並返回成功提示信息
+            setStudyData(data.data); // 根據實際返回的資料結構可能需要調整
+            return '資料讀取成功！';
+          },
+          icon: true, // 是否顯示圖標
+        },
+        error: {
+          render({ data }) {
+            // 請求失敗，返回後端提供的錯誤信息或預設錯誤提示
+            return data.response.data.error || '資料讀取失敗！'; // 根據後端響應結構調整
+          }
+        }
+      }
+    ).catch((err) => {
+      console.error('Error fetching data', err);
+      // 處理可能的錯誤，這裡的 catch 主要是為了捕捉到 toast.promise 之外的異常，例如網絡錯誤等
+    });
   };
+
 
   const formatStudyTime = (timeString) => {
     const isValidFormat = /^(\d{1,2}):(\d{2}):(\d{2})$/.test(timeString);
@@ -80,32 +97,40 @@ function HomeOracle() {
 
   const saveStudyData = (row) => {
     const rowData = studyData[row];
-    // const formattedStudyTime = formatStudyTime(rowData.studytime);
-    const formattedStudyTime = (rowData.studyDatebyself);
+    const formattedStudyTime = formatStudyTime(rowData.studytime);
     if (!formattedStudyTime) {
       toast.error("格式錯誤，請使用 hh:mm:ss 格式！");
       return;
     }
-    axios.post('https://study-work.onrender.com/study/update-study', {
-      id: rowData._id, // 確保你的資料中有 `id` 欄位
-      studyDatebyself: formattedStudyTime,
-      studytime: rowData.studytime,
-      studycontent: rowData.studycontent,
-    })
-    .then((response) => {
-      if(response.data.status ==='success'){
-        toast.success("修改成功!");
-      }else if(response.data.status ==='error'){
-        toast.success("修改失敗!");
+    toast.promise(
+      axios.post('https://study-work.onrender.com/study/update-study', {
+        id: rowData._id,
+        studyDatebyself: rowData.studyDatebyself,
+        studytime: rowData.studytime,
+        studycontent: rowData.studycontent,
+      }),
+      {
+        pending: '正在修改...',
+        success: {
+          render({ data }) {
+            return '修改成功!';
+          },
+          icon: true,
+        },
+        error: {
+          render({ data }) {
+            return data.response.data.error || '修改失败!';
+          }
+        }
       }
-
-    })
-    .catch((error) => {
+    ).then(response => {
+      // 
+    }).catch(error => {
       console.error('Error saving data', error);
-      // 處理錯誤，可能是顯示錯誤信息給用戶
+      // 
     });
   };
-  
+
 
   return (
     <div className="custom-background mt-5">

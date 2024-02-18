@@ -18,27 +18,41 @@ function Studycreate() {
             return;
         }
         const apiurl = "https://study-work.onrender.com/study/creatstudy";
-        axios
-            .post(apiurl, {
+
+        // 使用 toast.promise 來處理請求，並提供使用者友好的反饋信息
+        toast.promise(
+            axios.post(apiurl, {
                 id: user,
                 studyDatebyself: studyDatebyself,
                 studytime: studyTime,
                 studycontent: subject,
-            })
-            .then((response) => {
-                console.log(response.data);
-                if (response.data.status === "success") {
-                    toast.success("登記成功!");
-                    setStudyTime("");
-                    setSubject("");
-                    setStudyDatebyself(""); // 清空日期選擇後的狀態
-                } else {
-                    toast.error("登記失敗!");
+            }),
+            {
+                pending: '登記中...', // 等待中的提示信息
+                success: {
+                    render({ data }) {
+                        // 請求成功，清空輸入欄位並導航至指定頁面
+                        setStudyTime("");
+                        setSubject("");
+                        setStudyDatebyself(""); // 清空日期選擇後的狀態
+                        navigate("/LoginHome");
+                        return '登記成功!'; // 成功的提示信息
+                    },
+                    // 可以根據實際需要調整 success 信息的顯示方式
+                    icon: true,
+                },
+                error: {
+                    render({ data }) {
+                        // 請求失敗，返回後端提供的錯誤信息
+                        return data.response.data.error || '登記失敗!'; // 根據後端響應結構調整錯誤信息的獲取方式
+                    }
                 }
-            }).catch((err) => {
-                console.log(err);
-            });
+            }
+        ).catch((err) => {
+            console.log(err);
+        });
     };
+
 
     return (
         <div className="container" style={{ maxWidth: '400px', marginTop: '70px' }}>
