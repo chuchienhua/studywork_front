@@ -14,6 +14,13 @@ function TopBar() {
   const [Tokenbool, setTokenbool] = useState(false);
   const token = useSelector((state) => state.pw);
   const user = useSelector((state) => state.id);
+  // 新增一个状态来控制 NavDropdown 是否展开
+  const [isNavDropdownOpen, setIsNavDropdownOpen] = useState(false);
+
+  // 切换 NavDropdown 的函数
+  const toggleNavDropdown = () => {
+    setIsNavDropdownOpen(!isNavDropdownOpen);
+  };
 
   React.useEffect(() => {
     if (token) {
@@ -63,6 +70,8 @@ function TopBar() {
               <NavDropdown
                 title="個人資訊與選單"
                 id="navbarScrollingDropdown"
+                show={isNavDropdownOpen} 
+                onClick={toggleNavDropdown} 
                 style={{ textAlign: "center" }}
               >
                 <NavDropdown.Item
