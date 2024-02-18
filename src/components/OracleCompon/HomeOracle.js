@@ -65,8 +65,13 @@ function HomeOracle() {
         pending: '資料讀取中...', // 正在請求時的提示信息
         success: {
           render({ data }) {
+            // 將獲得的資料按日期從大到小排序
+            const sortedData = data.data.sort((a, b) => {
+              // 將日期字符串轉換為日期對象進行比較
+              return new Date(b.studyDatebyself) - new Date(a.studyDatebyself);
+            });
             // 請求成功，更新狀態並返回成功提示信息
-            setStudyData(data.data); // 根據實際返回的資料結構可能需要調整
+            setStudyData(sortedData); // 更新狀態為排序後的資料
             return '資料讀取成功！';
           },
           icon: true, // 是否顯示圖標
@@ -83,6 +88,7 @@ function HomeOracle() {
       // 處理可能的錯誤，這裡的 catch 主要是為了捕捉到 toast.promise 之外的異常，例如網絡錯誤等
     });
   };
+
 
 
   const formatStudyTime = (timeString) => {
