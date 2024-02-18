@@ -11,7 +11,7 @@ function LoginHome() {
 
   return (
     <div className="custom-background">
-      <div className="ms-2">
+      <div className=" mt-5">
         {/* <button
           type="button"
           className="btn btn-outline-success mt-1  "

@@ -43,10 +43,10 @@ function LoginOracle() {
   };
 
   return (
-    <div className="container" style={{ maxWidth: '400px', marginTop: '50px' }}>
-      <h2 className="mb-3">登入</h2>
+    <div className="container " style={{ maxWidth: '400px', marginTop: '70px' }}>
+      <h2 className="mb-3 ">登入</h2>
       <form>
-        <div className="mb-3">
+        <div className="mb-3 mt-2">
           <label htmlFor="username" className="form-label">帳號</label>
           <input type="text" className="form-control" id="username" placeholder="輸入帳號" onChange={(e) => setid(e.target.value)} value={id} />
         </div>

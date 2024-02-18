@@ -8,18 +8,20 @@ function Studycreate() {
     const user = useSelector((state) => state.id);
     const [studyTime, setStudyTime] = useState("");
     const [subject, setSubject] = useState("");
+    const [studyDatebyself, setStudyDatebyself] = useState("");
     const navigate = useNavigate();
+
     const studycreate = () => {
         axios.defaults.withCredentials = true;
-        if (studyTime === "" || subject === "") {
-            alert("請輸入時間與科目");
+        if (studyTime === "" || subject === "" || studyDatebyself === "") {
+            alert("請輸入時間、科目與日期");
             return;
         }
-        // const apiurl = Utils.getURL("oracle/getalluserauth");
         const apiurl = "https://study-work.onrender.com/study/creatstudy";
         axios
             .post(apiurl, {
-                id :user,
+                id: user,
+                studyDatebyself: studyDatebyself,
                 studytime: studyTime,
                 studycontent: subject,
             })
@@ -29,6 +31,7 @@ function Studycreate() {
                     toast.success("登記成功!");
                     setStudyTime("");
                     setSubject("");
+                    setStudyDatebyself(""); // 清空日期選擇後的狀態
                 } else {
                     toast.error("登記失敗!");
                 }
@@ -38,9 +41,19 @@ function Studycreate() {
     };
 
     return (
-        <div className="container" style={{ maxWidth: '400px', marginTop: '50px' }}>
+        <div className="container" style={{ maxWidth: '400px', marginTop: '70px' }}>
             <h2 className="mb-3">登記讀書紀錄</h2>
             <form>
+                <div className="mb-3">
+                    <label htmlFor="studyDatebyself" className="form-label">讀書日期</label>
+                    <input
+                        type="date"
+                        className="form-control"
+                        id="studyDatebyself"
+                        onChange={(e) => setStudyDatebyself(e.target.value)}
+                        value={studyDatebyself}
+                    />
+                </div>
                 <div className="mb-3">
                     <label htmlFor="studyTime" className="form-label">讀書時間 (HH:MM:SS)</label>
                     <input
@@ -49,7 +62,7 @@ function Studycreate() {
                         id="studyTime"
                         placeholder="如:01:30:00"
                         pattern="(?:[01]\d|2[0123]):(?:[012345]\d):(?:[012345]\d)"
-                        title="時間格視為(HH:MM:SS)"
+                        title="時間格式為(HH:MM:SS)"
                         onChange={(e) => setStudyTime(e.target.value)}
                         value={studyTime}
                     />

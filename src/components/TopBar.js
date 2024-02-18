@@ -32,7 +32,7 @@ function TopBar() {
   return (
     <Navbar
       expand="md"
-      sticky="top"
+      fixed="top"
       className="Topbar-background"
     >
       <Container fluid>

@@ -23,7 +23,7 @@ function HomeOracle() {
     td.className = 'htBody';
   };
   const columns = [
-    { data: "studyDate", type: "text", width: 150, readOnly: true },
+    { data: "studyDatebyself", type: "text", width: 150, readOnly: true },
     { data: "studytime", type: "numeric", width: 200 },
     { data: "studycontent", type: "text", width: 200 },
     {
@@ -80,13 +80,15 @@ function HomeOracle() {
 
   const saveStudyData = (row) => {
     const rowData = studyData[row];
-    const formattedStudyTime = formatStudyTime(rowData.studytime);
+    // const formattedStudyTime = formatStudyTime(rowData.studytime);
+    const formattedStudyTime = (rowData.studyDatebyself);
     if (!formattedStudyTime) {
       toast.error("格式錯誤，請使用 hh:mm:ss 格式！");
       return;
     }
     axios.post('https://study-work.onrender.com/study/update-study', {
       id: rowData._id, // 確保你的資料中有 `id` 欄位
+      studyDatebyself: formattedStudyTime,
       studytime: rowData.studytime,
       studycontent: rowData.studycontent,
     })
@@ -106,7 +108,7 @@ function HomeOracle() {
   
 
   return (
-    <div className="custom-background">
+    <div className="custom-background mt-5">
       <div>
         <button
           type="button"
