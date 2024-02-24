@@ -19,7 +19,7 @@ function LoginOracle() {
       alert("請輸入帳號密碼");
       return;
     }
-    const apiurl = "https://study-work.onrender.com/study/findmember";
+    const apiurl = `${process.env.REACT_APP_API_URL}/study/findmember`;
 
     // 使用 toast.promise 包裹你的登录请求
     toast.promise(

@@ -12,7 +12,6 @@ import Handsontable from "handsontable";
 import { toast } from "react-toastify";
 function HomeOracle() {
   registerAllCellTypes();
-  const url = "https://study-work.onrender.com";
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const user = useSelector((state) => state.id);
@@ -22,8 +21,9 @@ function HomeOracle() {
     Handsontable.renderers.TextRenderer.apply(this, arguments);
     td.className = 'htBody';
   };
+  const colHeader = ["讀書日期", "讀書時間", "讀書科目", "儲存", "刪除"];
   const columns = [
-    { data: "studyDatebyself", type: "text", width: 150, readOnly: true },
+    { data: "studyDatebyself", type: "date", width: 150},
     { data: "studytime", type: "numeric", width: 200 },
     { data: "studycontent", type: "text", width: 200 },
     {
@@ -50,13 +50,38 @@ function HomeOracle() {
         Handsontable.dom.empty(td);
         td.appendChild(div);
       },
-    }
+    },
+    {
+      data: "DELETE_BTN",
+      width: 80,
+      readOnly: true,
+      renderer: function (instance, td, row, col, prop, value, cellProperties) {
+        const icon = document.createElement("SPAN");
+        icon.className = "icon bi bi-database-fill-x";
+        icon.innerHTML = " 刪除";
+
+        const btn = document.createElement("SAVE_BTN");
+        btn.className =
+          "btn btn-outline-danger btn-sm px-1 py-0 nowrap align-top";
+        btn.appendChild(icon);
+
+        Handsontable.dom.addEvent(btn, "click", () => {
+          deleteStudyData(row);
+        });
+
+        const div = document.createElement("DIV");
+        div.appendChild(btn);
+
+        Handsontable.dom.empty(td);
+        td.appendChild(div);
+      },
+    },
   ];
 
-  const colHeader = ["讀書日期", "讀書時間", "讀書科目", "儲存"];
+
 
   const getStudyDataByUserId = (userId) => {
-    const apiurl = `https://study-work.onrender.com/study/get-study-data/${userId}`;
+    const apiurl = `${process.env.REACT_APP_API_URL}/study/get-study-data/${userId}`;
 
     // 使用 toast.promise 來處理請求並提供友好的使用者反饋
     toast.promise(
@@ -109,7 +134,7 @@ function HomeOracle() {
       return;
     }
     toast.promise(
-      axios.post('https://study-work.onrender.com/study/update-study', {
+      axios.post(`${process.env.REACT_APP_API_URL}/study/update-study`, {
         id: rowData._id,
         studyDatebyself: rowData.studyDatebyself,
         studytime: rowData.studytime,
@@ -119,13 +144,54 @@ function HomeOracle() {
         pending: '正在修改...',
         success: {
           render({ data }) {
-            return '修改成功!';
+            if (data.data.status === 'success') {
+              getStudyDataByUserId(user);
+              return '修改成功!';
+            }
+            if (data.data.status === 'error') {
+              return '修改失敗!';
+            }
           },
           icon: true,
         },
         error: {
           render({ data }) {
             return data.response.data.error || '修改失败!';
+          }
+        }
+      }
+    ).then(response => {
+      // 
+    }).catch(error => {
+      console.error('Error saving data', error);
+      // 
+    });
+  };
+
+  const deleteStudyData = (row) => {
+    const rowData = studyData[row];
+    toast.promise(
+      axios.post(`${process.env.REACT_APP_API_URL}/deleteStudyDataById`, {
+        id: rowData._id,
+      }),
+      {
+        pending: '正在修改...',
+        success: {
+          render({ data }) {
+            console.log(data);
+            if (data.data.status === 'success') {
+              getStudyDataByUserId(user);
+              return '刪除成功!';
+            }
+            if (data.data.status === 'error') {
+              return '刪除失败!';
+            }
+          },
+          icon: true,
+        },
+        error: {
+          render({ data }) {
+            return data.response.data.error || '刪除失败!';
           }
         }
       }

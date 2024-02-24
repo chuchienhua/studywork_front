@@ -17,7 +17,8 @@ function Studycreate() {
             alert("請輸入時間、科目與日期");
             return;
         }
-        const apiurl = "https://study-work.onrender.com/study/creatstudy";
+        // const apiurl = "http://192.168.0.13:3001/study/creatstudy";
+        const apiurl = `${process.env.REACT_APP_API_URL}/study/creatstudy`;
 
         // 使用 toast.promise 來處理請求，並提供使用者友好的反饋信息
         toast.promise(
@@ -31,12 +32,19 @@ function Studycreate() {
                 pending: '登記中...', // 等待中的提示信息
                 success: {
                     render({ data }) {
-                        // 請求成功，清空輸入欄位並導航至指定頁面
-                        setStudyTime("");
-                        setSubject("");
-                        setStudyDatebyself(""); // 清空日期選擇後的狀態
-                        navigate("/LoginHome");
-                        return '登記成功!'; // 成功的提示信息
+                        console.log(data);
+                        if (data.data.error === false) {
+                            // 請求成功，清空輸入欄位並導航至指定頁面
+                            setStudyTime("");
+                            setSubject("");
+                            setStudyDatebyself(""); // 清空日期選擇後的狀態
+                            navigate("/LoginHome");
+                            return '登記成功!'; // 成功的提示信息
+                        }
+                        if (data.data.error === true) {
+                            return data.data.res
+                        }
+
                     },
                     // 可以根據實際需要調整 success 信息的顯示方式
                     icon: true,
