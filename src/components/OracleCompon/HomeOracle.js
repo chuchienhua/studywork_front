@@ -23,7 +23,11 @@ function HomeOracle() {
   };
   const colHeader = ["讀書日期", "讀書時間", "讀書科目", "儲存", "刪除"];
   const columns = [
-    { data: "studyDatebyself", type: "date", width: 150},
+    {
+      data: "studyDatebyself", type: "date", dateFormat: "YYYY-MM-DD", // 設置你想要的日期格式
+      correctFormat: true, // 確保輸入格式正確
+      defaultDate: new Date().toISOString().slice(0, 10), width: 150
+    },
     { data: "studytime", type: "numeric", width: 200 },
     { data: "studycontent", type: "text", width: 200 },
     {
